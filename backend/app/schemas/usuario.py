@@ -1,10 +1,19 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
-class UsuarioCreate(BaseModel):
+class UsuarioBase(BaseModel):
     nombre: str
-    email: str
+    email: EmailStr
+
+class UsuarioCreate(UsuarioBase):
     password: str
 
+class UsuarioRead(UsuarioBase):
+    id: int
+
     class Config:
-        # Esto asegura que los nombres de las variables sean iguales en el modelo de base de datos y en el esquema
         orm_mode = True
+
+# Esquema para el login de un usuario
+class UsuarioLogin(BaseModel):
+    email: str
+    password: str
